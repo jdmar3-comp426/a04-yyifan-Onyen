@@ -32,12 +32,12 @@ app.get("/app/users", (req, res) => {
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
 app.get("/app/users/:id", (req, res) => {	
-	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = 2").all();
+	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = 2").get();
 	res.status(200).json(stmt);
 });
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
-app.get("/app/users", (req, res) => {	
-	const stmt = db.prepare("SELECT * FROM userinfo").all();
+app.get("/app/update/user/:id", (req, res) => {	
+	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?,user), pass = COALESCE(?,pass) WHERE id = ?").patch();
 	res.status(200).json(stmt);
 });
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
